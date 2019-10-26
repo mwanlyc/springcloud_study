@@ -1,3 +1,4 @@
+
 @[TOC](Eureka 注册中心/服务发现框架)
 
 # Eureka注册中心/服务发现框架
@@ -82,7 +83,7 @@ eureka:
     register-with-eureka: false # 是否注册自己的信息到EurekaServer，默认是true
     fetch-registry: false # 是否拉取其它服务的信息，默认是true
     service-url: # EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其它Server的地址。
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://eureka6002:6002/eureka
 
 
 ---
@@ -97,13 +98,17 @@ eureka:
     register-with-eureka: false # 是否注册自己的信息到EurekaServer，默认是true
     fetch-registry: false # 是否拉取其它服务的信息，默认是true
     service-url: # EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其它Server的地址。
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://eureka6001:6001/eureka
 
 ```
 在前面的示例中，我们有一个YAML文件，通过在不同的Spring配置文件中运行该服务器，可以在两个主机（==eureka6001==和==eureka6002==）上运行同一Eureka服务。您可以使用此配置通过操作/etc/hosts解析主机名来测试单个主机上的对等感知（在生产环境中这样做没有太大价值）。实际上，eureka.instance.hostname如果您在知道其主机名的计算机上运行（默认情况下，使用的是该机器的主机名）。
 
 您可以将多个Eureka服务添加到集群，并且只要它们均通讯的连接，它们就可以在彼此之间同步注册。如果在物理上分开（在一个数据中心内或在多个数据中心之间），只要它们都直接相互连接，它们就可以在彼此之间同步注册。
-application.yml(两个Eureka服务配置都需要把对方配置进来，英文逗号分隔），如下
+
+### Eureka Client 连接Eureka Server 集群配置
+
+application.yml(两个Eureka服务连接地址都需要加进来，英文逗号分隔），如下
+
 ```yml
 eureka:
   client:
